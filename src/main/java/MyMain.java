@@ -46,9 +46,17 @@ public class MyMain {
     // countBigDigits(99999) => 5
     // countBigDigits(521931) => 2
     public static int countBigDigits(int x) {
-        // YOUR CODE HERE
-        return -1;
+        if (x == 0) {
+            return 0;
+        }
+        int num = x % 10;
+        if (num >= 5) {
+            return 1 + countBigDigits(x / 10);
+        } else {
+            return countBigDigits(x / 10);
+        }
     }
+
 
     // Write a method that uses recursion to calculate whether
     // the number contains more odd digits than even digits
@@ -63,9 +71,22 @@ public class MyMain {
     // moreOddThanEven(1234) => false because 2 of each
     // moreOddThanEven(99999) => true because 5 odd and 0 even
     // moreOddThanEven(521931) => true because 5 odd and 1 even
-    public static boolean moreOddThanEven(int x) {
-        // YOUR CODE HERE
-        return false;
+    public static boolean moreOddThanEven(int x) {return moreOddThanEvenTR(x, 0, 0);}
+
+    public static boolean moreOddThanEven2(int x) {return moreOddThanEvenTR(x, 0, 0);}
+
+    public static boolean moreOddThanEvenTR(int x, int odd, int even) {
+        if (x == 0) {
+            if (odd<=even){
+            return false;}
+            return true;
+        }
+        if (x % 2 == 0) {
+            return moreOddThanEvenTR(x / 10, odd, even+1);
+        }
+        else {
+            return moreOddThanEvenTR(x/10, odd+1, even);
+        }
     }
 
     // This might be helpful to get started:
@@ -81,7 +102,12 @@ public class MyMain {
     // isPalindrome("madam") => true
     // isPalindrome("racecars") => false
     public static boolean isPalindrome(String str) {
-        // YOUR CODE HERE
+        if (str.length()==1 || str.length()==0){
+            return true;
+        }
+        if (str.charAt(0)==str.charAt(str.length()-1)){
+            return isPalindrome(str.substring(1,str.length()-1));
+        }
         return false;
     }
 
@@ -98,8 +124,10 @@ public class MyMain {
     // countBigDigits(99999) => 45
     // countBigDigits(521931) => 21
     public static int addDigits(int x) {
-        // YOUR CODE HERE
-        return -1;
+        if (x==0){
+            return 0;
+        }
+        return (x % 10 + addDigits(x/10));
     }
 
     // Write a method that is given a String containing a single pair
@@ -112,8 +140,13 @@ public class MyMain {
     // parenTrim("x(hello)") => "(hello)"
     // parenTrim("(xy)1") => "(xy)"
     public static String parenTrim(String str) {
-        // YOUR CODE HERE
-        return "";
+        if (str.charAt(0) == '(' && str.charAt(str.length() - 1) == ')') {
+            return str;
+        } else if (str.charAt(0) != '(') {
+            return parenTrim(str.substring(1)); //needs to remove until a '(' appears
+        } else {
+            return parenTrim(str.substring(0, str.length() - 1));
+        }
     }
 
     // This method returns the orignal string reversed;
@@ -122,13 +155,21 @@ public class MyMain {
     // reverse("desserts") => stressed
     // reverse("racecar") => racecar
     public static String reverse(String str) {
-        // YOUR CODE HERE
-        return "";
+        if(str.length()==0){
+            return str;
+        }
+        return reverse(str.substring(1)) + str.charAt(0);
     }
 
 
 
     public static void main(String[] args) {
         // Optional: Write some code here to test your methods!
+        System.out.println(countBigDigits(5));
+        System.out.println(moreOddThanEven(11));
+        System.out.println(moreOddThanEven(22));
+        System.out.println(moreOddThanEven(21112));
+        System.out.println(reverse("hello"));
+        System.out.println(parenTrim("12(xyz)22"));
     }
 }
